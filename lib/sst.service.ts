@@ -1,7 +1,9 @@
 import { Inject, Injectable, Logger } from '@nestjs/common'
 import { JwtService, JwtVerifyOptions } from '@nestjs/jwt'
 import * as jwt from 'jsonwebtoken'
-import { SstPayload } from './interfaces'
+import { SstModuleOptions, SstPayload } from './interfaces'
+import { SST_MODULE_OPTIONS } from './sst.constants';
+import ms from 'ms'
 
 @Injectable()
 export class SstService {
@@ -9,26 +11,23 @@ export class SstService {
 
   // eslint-disable-next-line no-useless-constructor
   constructor (
-    private jwtService: JwtService
+    @Inject(SST_MODULE_OPTIONS) private readonly options: SstModuleOptions,
+    private jwtService: JwtService,
   ) {}
 
-  generateToken (payload:any, secret?: string) {
-    return this.jwtService.sign(this.generatePayload(payload), { secret })
+  generateToken (subject: string, secret?: string) {
+    return this.jwtService.sign(this.generatePayload(subject), { secret })
   }
 
-  private generatePayload (_payload:{iss: string, sub: string, [key: string]: any;}) : SstPayload {
-    if (!_payload.iss) {
-      throw new Error('IssClaimEmptyError')
-    }
-    if (!_payload.sub) {
-      throw new Error('SubClaimEmptyError')
-    }
-
+  private generatePayload (subject: string) : SstPayload {
+    
+    const iat = new Date().getTime() / 1000
     const payload = {
-      iss: _payload.iss,
-      role: _payload?.role,
-      sub: _payload.sub,
-      iat: new Date().getTime() / 1000
+      iss: this.options.sst.iss,
+      role: this.options.sst?.role,
+      sub: subject,
+      iat,
+      exp: this.options.sst.exp ? iat + ms(this.options.signOptions?.expiresIn?.toString() || '120ms') : undefined
     }
 
     return payload

@@ -1,5 +1,5 @@
 import { DynamicModule } from '@nestjs/common';
-import { JwtModuleOptions } from '@nestjs/jwt';
+import { SstModuleOptions } from '.';
 export declare class SstModule {
-    static register(options: JwtModuleOptions): DynamicModule;
+    static register(options: SstModuleOptions): DynamicModule;
 }

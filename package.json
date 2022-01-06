@@ -1,6 +1,6 @@
 {
-  "name": "packages-auth",
-  "version": "1.0.0",
+  "name": "sst",
+  "version": "1.1.0",
   "description": "",
   "main": "dist/index.js",
   "scripts": {

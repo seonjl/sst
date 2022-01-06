@@ -1,17 +1,17 @@
 import { DynamicModule, Module, Provider } from '@nestjs/common'
 import { SstService } from './sst.service'
-import { JwtModule, JwtModuleOptions } from '@nestjs/jwt'
+import { JwtModule, JwtModuleOptions, JwtService } from '@nestjs/jwt'
+import { SST_MODULE_OPTIONS } from './sst.constants'
 
 @Module({
-  imports: [JwtModule],
-  providers: [SstService],
+  providers: [SstService, JwtService],
   exports: [SstService]
 })
 export class SstModule {
   static register (options: JwtModuleOptions): DynamicModule {
     return {
       module: SstModule,
-      providers: [{ provide: 'SST_MODULE_OPTIONS', useValue: options || {} }]
+      providers: [{ provide: SST_MODULE_OPTIONS, useValue: options || {} }]
     }
   }
 }

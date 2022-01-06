@@ -11,18 +11,18 @@ exports.SstModule = void 0;
 const common_1 = require("@nestjs/common");
 const sst_service_1 = require("./sst.service");
 const jwt_1 = require("@nestjs/jwt");
+const sst_constants_1 = require("./sst.constants");
 let SstModule = SstModule_1 = class SstModule {
     static register(options) {
         return {
             module: SstModule_1,
-            providers: [{ provide: 'SST_MODULE_OPTIONS', useValue: options || {} }]
+            providers: [{ provide: sst_constants_1.SST_MODULE_OPTIONS, useValue: options || {} }]
         };
     }
 };
 SstModule = SstModule_1 = __decorate([
     (0, common_1.Module)({
-        imports: [jwt_1.JwtModule],
-        providers: [sst_service_1.SstService],
+        providers: [sst_service_1.SstService, jwt_1.JwtService],
         exports: [sst_service_1.SstService]
     })
 ], SstModule);

@@ -1,1 +1,1 @@
-export declare const SST_MODULE_OPTIONS = "SST_MODULE_OPTIONS";
+export declare const SST_MODULE_OPTIONS = "JWT_MODULE_OPTIONS";

@@ -11,15 +11,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SstService = void 0;
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const sst_constants_1 = require("./sst.constants");
-const ms_1 = __importDefault(require("ms"));
 let SstService = class SstService {
     constructor(options, jwtService) {
         this.options = options;
@@ -27,17 +23,17 @@ let SstService = class SstService {
         this.logger = new common_1.Logger('SstService');
     }
     generateToken(subject, secret) {
-        return this.jwtService.sign(this.generatePayload(subject), { secret });
+        const token = this.jwtService.sign(this.generatePayload(subject), { secret });
+        return token;
     }
     generatePayload(subject) {
-        var _a, _b, _c;
-        const iat = new Date().getTime() / 1000;
+        var _a;
+        const iat = Math.floor(new Date().getTime() / 1000);
         const payload = {
             iss: this.options.sst.iss,
             role: (_a = this.options.sst) === null || _a === void 0 ? void 0 : _a.role,
             sub: subject,
-            iat,
-            exp: this.options.sst.exp ? iat + (0, ms_1.default)(((_c = (_b = this.options.signOptions) === null || _b === void 0 ? void 0 : _b.expiresIn) === null || _c === void 0 ? void 0 : _c.toString()) || '120ms') : undefined
+            iat
         };
         return payload;
     }

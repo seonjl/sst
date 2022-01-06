@@ -19,7 +19,7 @@ const config = {
   sst: {
     iss: 'jest:sstService',
     role: 'testing',
-    exp: true
+    useExp: true
   },
   secret: 'B'
 }

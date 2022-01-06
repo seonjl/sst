@@ -1,4 +1,4 @@
-import { JwtModuleOptions } from "@nestjs/jwt";
+import { JwtModuleOptions } from '@nestjs/jwt'
 
 export interface SstPayload {
     // [key: string]: any;
@@ -9,11 +9,9 @@ export interface SstPayload {
     exp?: number
   }
 
-
 export interface SstModuleOptions extends JwtModuleOptions {
   sst: {
     iss: string,
     role: string,
-    exp: Boolean
   }
 }

@@ -1,4 +1,4 @@
-import { JwtModuleOptions } from '@nestjs/jwt'
+import { JwtModuleOptions } from '@nestjs/jwt';
 
 export interface SstPayload {
     // [key: string]: any;

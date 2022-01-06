@@ -18,8 +18,7 @@ const setup = async (config: SstModuleOptions) => {
 const config = {
   sst: {
     iss: 'jest:sstService',
-    role: 'testing',
-    useExp: true
+    role: 'testing'
   },
   secret: 'B'
 }
@@ -28,7 +27,7 @@ describe('sstService', () => {
   let sstService: SstService
 
   beforeAll(async () => {
-    sstService = await setup({ ...config, secretOrKeyProvider: undefined })
+    sstService = await setup({ ...config })
   })
 
   it('should be defined', () => {
@@ -36,42 +35,38 @@ describe('sstService', () => {
   })
   it('공통 비밀키로 token 생성 및 검증', () => {
     const subject = '<target-id>'
-    const token = sstService.generateToken(subject)
+    const token = sstService.generateToken({ subject })
     expect(jwt.decode(token)).toEqual({
       iss: 'jest:sstService',
       role: 'testing',
       sub: '<target-id>',
-      iat: expect.any(Number),
-      exp: expect.any(Number)
+      iat: expect.any(Number)
 
     })
     expect(jwt.verify(token, config.secret)).toEqual({
       iss: 'jest:sstService',
       role: 'testing',
       sub: '<target-id>',
-      iat: expect.any(Number),
-      exp: expect.any(Number)
+      iat: expect.any(Number)
     })
     expect(() => jwt.verify(token, 'fake key')).toThrowError()
   })
 
-  it('특정 비밀키로 token 생성 및 검증', async () => {
+  it('특정 비밀키로 token 생성 및 검증', () => {
     const subject = '<target-id>'
-    const token = await sstService.generateToken(subject, 'custom key')
+    const token = sstService.generateToken({ subject }, 'custom key')
 
     expect(jwt.decode(token)).toEqual({
       iss: 'jest:sstService',
       role: 'testing',
       sub: '<target-id>',
-      iat: expect.any(Number),
-      exp: expect.any(Number)
+      iat: expect.any(Number)
     })
     expect(jwt.verify(token, 'custom key')).toEqual({
       iss: 'jest:sstService',
       role: 'testing',
       sub: '<target-id>',
-      iat: expect.any(Number),
-      exp: expect.any(Number)
+      iat: expect.any(Number)
     })
     expect(() => jwt.verify(token, 'fake key')).toThrowError()
   })

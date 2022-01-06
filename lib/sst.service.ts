@@ -15,16 +15,17 @@ export class SstService {
     private jwtService: JwtService
   ) {}
 
-  generateToken (subject: string, secret?: string) {
-    const token = this.jwtService.sign(this.generatePayload(subject), { secret })
+  generateToken (claim: {role?: string, subject?: string}, secret?: string) {
+    const token = this.jwtService.sign(this.generatePayload(claim), { secret })
     return token
   }
 
-  private generatePayload (subject: string) : SstPayload {
+  private generatePayload (claim) : SstPayload {
+    const { role, subject } = claim
     const iat = Math.floor(new Date().getTime() / 1000)
     const payload = {
       iss: this.options.sst.iss,
-      role: this.options.sst?.role,
+      role: role || this.options.sst?.role,
       sub: subject,
       iat
     }

@@ -6,7 +6,10 @@ export declare class SstService {
     private jwtService;
     private readonly logger;
     constructor(options: SstModuleOptions, jwtService: JwtService);
-    generateToken(subject: string, secret?: string): string;
+    generateToken(claim: {
+        role?: string;
+        subject?: string;
+    }, secret?: string): string;
     private generatePayload;
     verify(token: string, options?: JwtVerifyOptions): any;
     decode(token: string, options?: jwt.DecodeOptions): null | {

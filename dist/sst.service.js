@@ -22,16 +22,17 @@ let SstService = class SstService {
         this.jwtService = jwtService;
         this.logger = new common_1.Logger('SstService');
     }
-    generateToken(subject, secret) {
-        const token = this.jwtService.sign(this.generatePayload(subject), { secret });
+    generateToken(claim, secret) {
+        const token = this.jwtService.sign(this.generatePayload(claim), { secret });
         return token;
     }
-    generatePayload(subject) {
+    generatePayload(claim) {
         var _a;
+        const { role, subject } = claim;
         const iat = Math.floor(new Date().getTime() / 1000);
         const payload = {
             iss: this.options.sst.iss,
-            role: (_a = this.options.sst) === null || _a === void 0 ? void 0 : _a.role,
+            role: role || ((_a = this.options.sst) === null || _a === void 0 ? void 0 : _a.role),
             sub: subject,
             iat
         };

@@ -5,17 +5,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var SstModule_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SstModule = void 0;
 const common_1 = require("@nestjs/common");
 const sst_service_1 = require("./sst.service");
 const jwt_1 = require("@nestjs/jwt");
-let SstModule = class SstModule {
+let SstModule = SstModule_1 = class SstModule {
     static register(options) {
-        return jwt_1.JwtModule.register(options);
+        return {
+            module: SstModule_1,
+            providers: [{ provide: 'SST_MODULE_OPTIONS', useValue: options || {} }]
+        };
     }
 };
-SstModule = __decorate([
+SstModule = SstModule_1 = __decorate([
     (0, common_1.Module)({
         imports: [jwt_1.JwtModule],
         providers: [sst_service_1.SstService],

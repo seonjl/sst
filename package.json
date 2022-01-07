@@ -1,5 +1,5 @@
 {
-  "name": "sst",
+  "name": "@seonjl/sst",
   "version": "1.1.0",
   "description": "",
   "main": "dist/index.js",
@@ -33,5 +33,8 @@
     "@nestjs/common": "^8.2.4",
     "@nestjs/jwt": "^8.0.0",
     "jsonwebtoken": "^8.5.1"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   }
 }

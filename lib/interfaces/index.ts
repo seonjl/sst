@@ -1,3 +1,4 @@
+import { ModuleMetadata, Type } from '@nestjs/common';
 import { JwtModuleOptions } from '@nestjs/jwt';
 
 export interface SstPayload {
@@ -14,4 +15,14 @@ export interface SstModuleOptions extends JwtModuleOptions {
     iss: string,
     role: string,
   }
+}
+
+export interface SstOptionsFactory {
+  createSstOptions(): Promise<SstModuleOptions> | SstModuleOptions;
+}
+export interface SstModuleAsyncOptions extends Pick<ModuleMetadata, 'imports'> {
+  useExisting?: Type<SstOptionsFactory>;
+  useClass?: Type<SstOptionsFactory>;
+  useFactory?: (...args: any[]) => Promise<SstModuleOptions> | SstModuleOptions;
+  inject?: any[];
 }
